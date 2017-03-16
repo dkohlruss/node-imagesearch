@@ -10,17 +10,16 @@ const port = process.env.PORT || 3000;
 app.use(express.static(__dirname + '/public'));
 
 app.get('/search', (req, res) => {
-  Search.find().then((results) => {
+  Search.find().sort({'when': -1}).limit(10).then((results) => {
     let queries = [];
     let i = 0;
-    while (i < 10 && i < results.length) {
-      console.log('do thing');
+
+    results.forEach((result) => {
       queries.push({
-        term: results[i].term,
-        when: results[i].when
-      });
-      i++;
-    };
+        term: result.term,
+        when: result.when
+      })
+    })
 
     res.send(queries);
   }).catch((e) => {
