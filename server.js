@@ -7,7 +7,9 @@ const basePath = 'https://www.googleapis.com/customsearch/v1?key=AIzaSyDp2TKGeZX
 const app = express();
 const port = process.env.PORT || 3000;
 
-app.get('/', (req, res) => {
+app.use(express.static(__dirname + '/public'));
+
+app.get('/search', (req, res) => {
   Search.find().then((results) => {
     let queries = [];
     let i = 0;
@@ -26,7 +28,7 @@ app.get('/', (req, res) => {
   });
 })
 
-app.get('/search', (req, res) => {
+app.get('/search/new', (req, res) => {
   let searchTerm = req.query.q;
   let offSet = req.query.offset || 1;
 
